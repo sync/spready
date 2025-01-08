@@ -12,16 +12,16 @@ use bindings::{
 };
 
 #[derive(Debug, Default)]
-struct ExampleFdw {
+struct SpreadyFdw {
     base_url: String,
     src_rows: Vec<JsonValue>,
     src_idx: usize,
 }
 
 // pointer for the static FDW instance
-static mut INSTANCE: *mut ExampleFdw = std::ptr::null_mut::<ExampleFdw>();
+static mut INSTANCE: *mut SpreadyFdw = std::ptr::null_mut::<SpreadyFdw>();
 
-impl ExampleFdw {
+impl SpreadyFdw {
     // initialise FDW instance
     fn init_instance() {
         let instance = Self::default();
@@ -35,7 +35,7 @@ impl ExampleFdw {
     }
 }
 
-impl Guest for ExampleFdw {
+impl Guest for SpreadyFdw {
     fn host_version_requirement() -> String {
         // semver expression for Wasm FDW host version requirement
         // ref: https://docs.rs/semver/latest/semver/enum.Op.html
@@ -60,7 +60,7 @@ impl Guest for ExampleFdw {
         let url = format!("{}/{}", this.base_url, object);
 
         let headers: Vec<(String, String)> =
-            vec![("user-agent".to_owned(), "Example FDW".to_owned())];
+            vec![("user-agent".to_owned(), "Spready FDW".to_owned())];
 
         let req = http::Request {
             method: http::Method::Get,
@@ -76,7 +76,10 @@ impl Guest for ExampleFdw {
             .map(|v| v.to_owned())
             .expect("response should be a JSON array");
 
-        utils::report_info(&format!("We got response array length: {}", this.src_rows.len()));
+        utils::report_info(&format!(
+            "We got response array length: {}",
+            this.src_rows.len()
+        ));
 
         Ok(())
     }
@@ -154,4 +157,4 @@ impl Guest for ExampleFdw {
     }
 }
 
-bindings::export!(ExampleFdw with_types_in bindings);
+bindings::export!(SpreadyFdw with_types_in bindings);

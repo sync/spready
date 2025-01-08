@@ -2,8 +2,6 @@
 
 This project demostrates how to create a Postgres Foreign Data Wrapper with Wasm, using the [Wrappers framework](https://github.com/supabase/wrappers).
 
-This example reads the [realtime GitHub events](https://api.github.com/events) into a Postgres database. 
-
 ## Project Structure
 
 ```bash

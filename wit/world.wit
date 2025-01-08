@@ -1,6 +1,6 @@
-package my-company:example-fdw@0.1.0;
+package sync:spready-fdw@0.1.0;
 
-world example {
+world spready {
     import supabase:wrappers/http@0.1.0;
     import supabase:wrappers/jwt@0.1.0;
     import supabase:wrappers/stats@0.1.0;
